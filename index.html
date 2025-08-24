@@ -112,8 +112,8 @@
         <img src="logo.png" alt="Federation Logo" class="logo">
         <h2>All India Weavers Federation</h2>
         
-        <!-- ✅ Updated Form Action to Google Apps Script -->
-        <form action="https://script.google.com/macros/s/AKfycbxCvPgAMsAhJ4OtoNTN8uHFzxm6BVZi0ZiI0AGpbzBQwmAQgtZhRQ7SDq5JCH8KJOUCXg/exec">
+        <!-- ✅ Form to Submit Data to Google Sheet -->
+        <form id="registration-form">
             
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
@@ -145,15 +145,24 @@
             <textarea id="message" name="message" rows="4" placeholder="Enter any additional details"></textarea>
 
             <button type="submit">Submit</button>
-        </action>
+        </form>
     </div>
 
     <script>
-        function showMessage() {
-            alert("Form submitted successfully!");
-            return true; // ✅ Allow form to submit
-        }
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxCvPgAMsAhJ4OtoNTN8uHFzxm6BVZi0ZiI0AGpbzBQwmAQgtZhRQ7SDq5JCH8KJOUCXg/exec";
+        const form = document.getElementById('registration-form');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault(); // Stop page reload
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    alert("✅ Form submitted successfully!");
+                    form.reset();
+                })
+                .catch(error => console.error('Error!', error.message));
+        });
     </script>
 </body>
 </html>
+
 
